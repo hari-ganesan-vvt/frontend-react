@@ -24,7 +24,8 @@ const Login = () => {
         password: password,
       }),
     };
-    let url = "http://localhost:8080/api/v1/users/userRegister";
+    let url =
+      " https://test-node-api-7oo8.onrender.com/api/v1/users/userRegister";
     fetch(url, reqOptions)
       .then((res) => res.json())
       .then((data) => {
@@ -47,7 +48,7 @@ const Login = () => {
       },
       body: JSON.stringify({ email: email, password: password }),
     };
-    let url = "http://localhost:8080/api/v1/users/userLogin";
+    let url = "https://test-node-api-7oo8.onrender.com/api/v1/users/userLogin";
     fetch(url, reqOptions)
       .then((res) => res.json())
       .then((data) => {
