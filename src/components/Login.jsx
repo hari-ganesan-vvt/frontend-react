@@ -2,6 +2,7 @@ import React from "react";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,54 +12,56 @@ const Login = () => {
   const [username, setUsername] = useState("");
 
   //signup
-  const handleSignup = (e) => {
-    e.preventDefault();
-    const reqOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-      }),
-    };
-    let url =
-      " https://test-node-api-7oo8.onrender.com/api/v1/users/userRegister";
-    fetch(url, reqOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        enqueueSnackbar(data.message);
-        if (data.message === "User successfully created") {
-          setLoginType("login");
-        }
-      })
-      .catch((err) => console.log(err));
+  const handleSignup = async (e) => {
+    try {
+      e.preventDefault();
+      const reqOptions = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      let url =
+        "https://mpxp4clm1b.execute-api.ap-south-1.amazonaws.com/jwt_prod/api/v1/users/userSignup";
+
+      const response = await axios.post(
+        url,
+        { username, email, password },
+        reqOptions
+      );
+
+      console.log(response.data.message);
+      if (response.data.message === "User successfully created") {
+        setLoginType("login");
+        enqueueSnackbar(response.data.message);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+      enqueueSnackbar(error.response.data.message);
+    }
   };
 
   //login
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const reqOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    };
-    let url = "https://test-node-api-7oo8.onrender.com/api/v1/users/userLogin";
-    fetch(url, reqOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        enqueueSnackbar(data.message);
-        if (data.message === "User successfully Login") {
-          navigate("/home");
-        }
-      })
-      .catch((err) => console.log(err));
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const reqOptions = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      let url =
+        "https://mpxp4clm1b.execute-api.ap-south-1.amazonaws.com/jwt_prod/api/v1/users/userLogin";
+
+      const response = await axios.post(url, { email, password }, reqOptions);
+      enqueueSnackbar(response.data.message);
+      if (response.data.message === "User successfully Login") {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+      enqueueSnackbar(error.response.data.message);
+    }
   };
 
   return (

@@ -1,28 +1,29 @@
 import React from "react";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    let url = "http://localhost:8080/api/v1/users/userLogout";
-    const reqOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    fetch(url, reqOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        enqueueSnackbar(data.message);
-        if (data.message === "User has been logged out.") {
-          navigate("/");
-        }
-      })
-      .catch((err) => console.log(err));
+  const handleLogout = async () => {
+    try {
+      let url =
+        "https://mpxp4clm1b.execute-api.ap-south-1.amazonaws.com/jwt_prod/api/v1/users/userLogout";
+      const reqOptions = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const response = await axios.post(url, reqOptions);
+      if (response.data.message === "User has been logged out.") {
+        enqueueSnackbar(response.data.message);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
