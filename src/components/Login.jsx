@@ -21,7 +21,7 @@ const Login = () => {
         },
       };
       let url =
-        "https://mpxp4clm1b.execute-api.ap-south-1.amazonaws.com/jwt_prod/api/v1/users/userSignup";
+        "https://pdy33tz86g.execute-api.ap-south-1.amazonaws.com/testing-api/api/v1/users/userSignup";
 
       const response = await axios.post(
         url,
@@ -51,7 +51,7 @@ const Login = () => {
       };
 
       let url =
-        "https://mpxp4clm1b.execute-api.ap-south-1.amazonaws.com/jwt_prod/api/v1/users/userLogin";
+        "https://pdy33tz86g.execute-api.ap-south-1.amazonaws.com/testing-api/api/v1/users/userLogin";
 
       const response = await axios.post(url, { email, password }, reqOptions);
       enqueueSnackbar(response.data.message);

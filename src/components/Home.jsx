@@ -9,7 +9,7 @@ const Home = () => {
   const handleLogout = async () => {
     try {
       let url =
-        "https://mpxp4clm1b.execute-api.ap-south-1.amazonaws.com/jwt_prod/api/v1/users/userLogout";
+        "https://pdy33tz86g.execute-api.ap-south-1.amazonaws.com/testing-api/api/v1/users/userLogout";
       const reqOptions = {
         headers: {
           "Content-Type": "application/json",
